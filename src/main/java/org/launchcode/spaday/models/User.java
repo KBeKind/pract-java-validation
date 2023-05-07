@@ -3,6 +3,7 @@ package org.launchcode.spaday.models;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class User {
@@ -18,6 +19,7 @@ public class User {
     private String password;
 
     @NotBlank
+    @NotNull(message = "Passwords do not match")
     @Size(min = 6)
     private String verify;
 
@@ -32,6 +34,14 @@ public class User {
         this.password = password;
         this.verify = verify;
     }
+
+    private void checkPassword() {
+        if (this.password.equals(this.verify)) {
+        } else {
+            verify = null;
+        }
+    }
+
 
     public String getUsername() {
         return username;
@@ -54,14 +64,19 @@ public class User {
     }
 
     public void setPassword(String password) {
+
         this.password = password;
+        checkPassword();
     }
 
     public String getVerify() {
+
         return verify;
     }
 
     public void setVerify(String verify) {
+
         this.verify = verify;
+        checkPassword();
     }
 }
